@@ -1,0 +1,11 @@
+Pages rough idea:
+    Home
+    Login 
+    Register
+    About us
+    Contact us
+    Profile - View Edit Delete
+    Add new Friend
+    Friend List - Chat Remove 
+    Chat Page
+
