@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 
 mongoose.set('strictQuery', true);
 mongoose.Promise = global.Promise;
+
 mongoose.connect(dbConfig.url,{
     useNewUrlParser: true
 }).then(()=>{

@@ -3,24 +3,61 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const user = require('../models/userModel');
 
+const uuidv4 = require('uuid/v4');
+const multer = require('multer');
+const DIR = './public/';
+
 // get config vars
 dotenv.config();
 
 // access config variables
 // console.log("secret",process.env.SECRET_KEY);
 
+//Fileupload functions
+
+const storage = multer.diskStorage({
+    destination: (req,file,cb) => {
+        cb(null,DIR);
+    },
+    filename:(req,file,cb) => {
+        const filename = file.originalname.toLowerCase().split(' ').join('-');
+        cb(null,uuidv4() + '-' + filename)
+    }
+});
+
+const allowedfiletypes = ['image/png','image/jpg','image/jpeg'];
+var upload = multer({
+    storage: storage,
+    fileFilter: (req,file,cb) =>{
+        if(allowedfiletypes.includes(file.mimetype)){
+            cb(null,true);
+        } else {
+            cb(null,false);
+            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+        }
+    }
+})
+
+exports.upload = upload;
+
+
+//Registration controller
 exports.register = async (req,res,next)=>{
-    //Checking if every required field is sent or not
-    if(!req.body.email && !req.body.firstname && !req.body.firstname && !req.body.phone && !req.body.password){
+    const url = req.protocol + '://' + req.get('host')
+    
+    
+    //Checking if every required field is recieved or not
+    if(!req.body.email && !req.body.firstname && !req.body.firstname && !req.body.phone && !req.body.password && !req.body.gender){
         res.status(400).send({"message":"All the fields are required!"});
     }
     //creating a model instance using the provided values
     const user = new userModel({
+        name: req.body.name,
         email : req.body.email,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname,
+        password : req.body.password,
         phone: req.body.phone,
-        password : req.body.password
+        gender: req.body.gender,
+        avatar : url + '/public/' + req.file.filename,
     });
 
     //Saving the instance to create the user
