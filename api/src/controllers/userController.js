@@ -1,7 +1,7 @@
 const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const user = require('../models/userModel');
+const USER = require('../models/userModel');
 
 const uuidv4 = require('uuid/v4');
 const multer = require('multer');
@@ -75,7 +75,7 @@ exports.register = async (req,res,next)=>{
 };
 
 //Generating JWT token
-function generateAccessToken(email){
+function generateJWTToken(email){
     return jwt.sign({"email":email},process.env.SECRET_KEY,{ expiresIn: '1h' });
 }
 
@@ -84,7 +84,7 @@ exports.login = async(req,res,next)=>{
     let { email, password } = req.body;
     // Fetching a model instance with provided emailid
     try{
-        var User = await user.findOne({email});
+        var User = await USER.findOne({email});
     }catch{
         const error = new Error("Error! Something went wrong.");
         return next(error);
@@ -97,7 +97,7 @@ exports.login = async(req,res,next)=>{
         }
         else{
             //Sending the token as response so that react can set it as a cookie
-            const token = generateAccessToken(email);
+            const token = generateJWTToken(email);
             console.log(true);
             res.status(200).send({"token":token})
             
