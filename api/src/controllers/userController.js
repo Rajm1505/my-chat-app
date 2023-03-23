@@ -43,7 +43,7 @@ exports.upload = upload;
 
 //Registration controller
 exports.register = async (req,res,next)=>{
-    const url = req.protocol + '://' + req.get('host')
+    // const url = req.protocol + '://' + req.get('host')
     
     
     //Checking if every required field is recieved or not
@@ -57,7 +57,7 @@ exports.register = async (req,res,next)=>{
         password : req.body.password,
         phone: req.body.phone,
         gender: req.body.gender,
-        avatar : url + '/public/' + req.file.filename,
+        // avatar : url + '/public/' + req.file.filename,
     });
 
     //Saving the instance to create the user
