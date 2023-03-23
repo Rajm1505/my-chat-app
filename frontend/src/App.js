@@ -3,19 +3,28 @@ import './App.css';
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 
+import Home from './Pages/Home'
 import Login from './Auth/Login'
 import Register from './Auth/Register'
+import AboutUs from './Pages/AboutUs';
+import ContactUs from './Pages/ContactUs';
+import AddNewFriend from './Pages/AddNewFriend';
+import Friendlist from './Pages/Friendlist';
+import ProfilePage from './Pages/Profile';
 
 
 function App() {
   return (
-    <>
     <Routes>
-      <Route path = "/" exact element={<Login/>}  />
+      <Route path = "/" element={<Home/>}  />
       <Route path = "/login" element={<Login/>}  />
       <Route path="/register" element={<Register />} />
+      <Route path="/aboutus" element={<AboutUs />} />
+      <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/addnewfriend" element={<AddNewFriend />} />
+      <Route path="/friendlist" element={<Friendlist />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
-    </>
   );
 }
 

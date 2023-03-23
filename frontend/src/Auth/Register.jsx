@@ -1,52 +1,58 @@
 import React from 'react';
-import axios from 'axios';
-import { Button } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
-
-
-function Register(e){
-
-    const { register, handleSubmit } = useForm();
-    const navigate = useNavigate();
-
-    const postdata = (e) =>{
-        let data = JSON.stringify(e);
-        console.log(data);
-        axios
-        .post("http://127.0.0.1:3100/",data).then(()=>{
-            console.log("Registered");
-            navigate('login');
-        }).catch((err)=>{
-            console.log(err);
-        });
-    }
-    
-    return(
-        <Form onSubmit = {handleSubmit(postdata)}>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" placeholder="Enter your name" {...register("name")} />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Enter your email " {...register("email")}/>
-        </Form.Group>
-  
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" {...register("password")} />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Submit
-        </Button>
-      </Form>
-    );
-
-
-
-
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCardImage,
+  MDBInput,
+  MDBIcon,
 }
-export default Register;
+from 'mdb-react-ui-kit';
+import Navbar from "../Navbar";
 
+function Register() {
+  return (
+    <>
+    <Navbar />
+    <MDBContainer className="vh-100" style={{background:"black"}} fluid>
+     
+          <MDBRow>
+            <MDBCol className='mt-5 order-2 order-lg-1 d-flex flex-column align-items-center text-white'>
+
+              <p className="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up </p>
+
+              <div className="d-flex flex-row align-items-center mb-4">
+                <MDBIcon fas icon="user me-3" size='lg'/>
+                <MDBInput label='Username' type='text' id='formWhite' contrast />
+              </div>
+
+              <div className="d-flex flex-row align-items-center mb-4">
+                <MDBIcon fas icon="lock me-3" size='lg'/>
+                <MDBInput label='Password' type='password' id='formWhite' contrast />
+              </div>
+
+              <div className="d-flex flex-row align-items-center mb-4">
+                <MDBIcon fas icon="key me-3" size='lg'/>
+                <MDBInput label='Confirm Password' type='password' id='formWhite' contrast />
+              </div>
+
+              <MDBBtn className='mb-4' size='lg'>Sign Up</MDBBtn>
+
+              <p>Already have an account? <a href="/login" className='text-warning'>Sign in</a></p>
+
+            </MDBCol>
+
+              {/* <img src='./img/signin.jpg' alt='error'/> */}
+            <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+            </MDBCol>
+
+          </MDBRow>
+        
+
+    </MDBContainer>
+    </>
+  );
+}
+
+export default Register;
