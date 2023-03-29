@@ -1,19 +1,17 @@
-const userModel = require('../models/userModel')
+const router = require('express').Router();
+const multer = require('multer');
+
+
+const USER = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const USER = require('../models/userModel');
-
-const uuidv4 = require('uuid/v4');
-const multer = require('multer');
-const DIR = './public/';
 
 // get config vars
 dotenv.config();
 
-// access config variables
-// console.log("secret",process.env.SECRET_KEY);
-
-//Fileupload functions
+function generateJWTToken(id){
+    return jwt.sign({"id":id},process.env.SECRET_KEY,{ expiresIn: '1h' });
+}
 
 const storage = multer.diskStorage({
     destination: (req,file,cb) => {
@@ -38,24 +36,20 @@ var upload = multer({
     }
 })
 
-exports.upload = upload;
 
 
-//Registration controller
-exports.register = async (req,res,next)=>{
+// Route for creating the user
+router.post('/register', async (req,res,next)=>{
     // const url = req.protocol + '://' + req.get('host')
-    
-    
     //Checking if every required field is recieved or not
     if(!req.body.email && !req.body.firstname && !req.body.firstname && !req.body.phone && !req.body.password && !req.body.gender){
         res.status(400).send({"message":"All the fields are required!"});
     }
     //creating a model instance using the provided values
-    const user = new userModel({
+    const user = new USER({
         name: req.body.name,
         email : req.body.email,
         password : req.body.password,
-        phone: req.body.phone,
         gender: req.body.gender,
         // avatar : url + '/public/' + req.file.filename,
     });
@@ -72,14 +66,10 @@ exports.register = async (req,res,next)=>{
             
         });
     });
-};
+})
 
-//Generating JWT token
-function generateJWTToken(email){
-    return jwt.sign({"email":email},process.env.SECRET_KEY,{ expiresIn: '1h' });
-}
-
-exports.login = async(req,res,next)=>{
+// Route for login 
+router.post('/login',async(req,res,next)=>{
 
     let { email, password } = req.body;
     // Fetching a model instance with provided emailid
@@ -97,7 +87,7 @@ exports.login = async(req,res,next)=>{
         }
         else{
             //Sending the token as response so that react can set it as a cookie
-            const token = generateJWTToken(email);
+            const token = generateJWTToken(User._id);
             console.log(true);
             res.status(200).send({"token":token})
             
@@ -108,6 +98,13 @@ exports.login = async(req,res,next)=>{
         res.status(404).send({"message":"Account does not exist!"})
     }
 
-};
+});
 
-// Note: Logout will be done using react by simply deleting the jwt cookie
+// Note: Logout will be done using react by simply removing jwt from localstorage
+
+
+//Search in database against the query recieved
+// router.post('search') 
+
+
+module.exports = router;
