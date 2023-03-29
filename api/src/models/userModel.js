@@ -19,9 +19,9 @@ var schema = new mongoose.Schema({
         required:true
     },
     avatar:{
-        type:String
-    },
-    phone:String,
+        type:String,
+        required:false
+    }
 });
 
 var user = new mongoose.model('User',schema);
