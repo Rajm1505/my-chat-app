@@ -11,6 +11,7 @@ import ContactUs from './Pages/ContactUs';
 import AddNewFriend from './Pages/AddNewFriend';
 import Friendlist from './Pages/Friendlist';
 import ProfilePage from './Pages/Profile';
+import Chat from './Pages/Chat';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path="/addnewfriend" element={<AddNewFriend />} />
       <Route path="/friendlist" element={<Friendlist />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/chat/:chatID" element={<Chat />} />
     </Routes>
   );
 }
