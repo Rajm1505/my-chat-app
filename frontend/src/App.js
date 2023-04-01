@@ -8,7 +8,7 @@ import Login from './Auth/Login'
 import Register from './Auth/Register'
 import AboutUs from './Pages/AboutUs';
 import ContactUs from './Pages/ContactUs';
-import AddNewFriend from './Pages/AddNewFriend';
+import Search from './Pages/Search';
 import Friendlist from './Pages/Friendlist';
 import ProfilePage from './Pages/Profile';
 
@@ -21,7 +21,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/aboutus" element={<AboutUs />} />
       <Route path="/contactus" element={<ContactUs />} />
-      <Route path="/addnewfriend" element={<AddNewFriend />} />
+      <Route path="/search/:name" element={<Search />} />
       <Route path="/friendlist" element={<Friendlist />} />
       <Route path="/profile" element={<ProfilePage />} />
     </Routes>

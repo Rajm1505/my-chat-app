@@ -42,7 +42,7 @@ var upload = multer({
 router.post('/register', async (req,res,next)=>{
     // const url = req.protocol + '://' + req.get('host')
     //Checking if every required field is recieved or not
-    if(!req.body.email && !req.body.firstname && !req.body.firstname && !req.body.phone && !req.body.password && !req.body.gender){
+    if(!req.body.email && !req.body.name && !req.body.password && !req.body.gender){
         res.status(400).send({"message":"All the fields are required!"});
     }
     //creating a model instance using the provided values
@@ -105,6 +105,15 @@ router.post('/login',async(req,res,next)=>{
 
 //Search in database against the query recieved
 // router.post('search') 
+router.get('/search/:name', async (req,res) => {
+    try {
+        const name = req.params.name;
+        const user = await USER.find({name:{ $regex:'.*'+name+'.*'} });
+        res.send(user);
+    } catch (error) {
+        res.status(404).send({message: error});        
+    }
+})
 
 
 module.exports = router;
