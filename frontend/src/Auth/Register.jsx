@@ -8,6 +8,8 @@ import {
   MDBCardImage,
   MDBInput,
   MDBIcon,
+  // MDBFile,
+  MDBRadio
 }
 from 'mdb-react-ui-kit';
 import Navbar from "../Navbar";
@@ -19,10 +21,10 @@ function Register() {
   function handleRegister(event) {
     event.preventDefault();
     console.log(formData);
-    var data = JSON.stringify(formData);
+    
     
     axios
-    .post("http://localhost:3100/register",data).then(function(response){
+    .post("http://localhost:3100/user/register",formData).then(function(response){
       console.log(response);
     }).then(function(error){
       console.log(error);
@@ -49,10 +51,10 @@ function Register() {
 
               <div className="d-flex flex-row align-items-center mb-4">
                 <MDBIcon fas icon="user me-3" size='lg'/>
-                <MDBInput label='Username' name='username' type='text' id='formWhite' contrast onChange={handleInputChange}/>
+                <MDBInput label='Name' name='name' type='text' id='formWhite' contrast onChange={handleInputChange}/>
               </div>
               <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="user me-3" size='lg'/>
+                <MDBIcon fas icon="envelope me-3" size='lg'/>
                 <MDBInput label='Email' name='email' type='email' id='formWhite' contrast onChange={handleInputChange} />
               </div>
 
@@ -65,14 +67,17 @@ function Register() {
                 <MDBIcon fas icon="key me-3" size='lg'/>
                 <MDBInput label='Confirm Password' type='password' id='formWhite' contrast onChange={handleInputChange} />
               </div>
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="user me-3" size='lg'/>
-                <MDBInput label='Phone' name='phone' type='number' id='formWhite' contrast onChange={handleInputChange} />
+              
+              <div className="d-flex flex-row align-items-center mb-4 ms-2">
+              
+              <MDBRadio name='gender' id='inlineRadio1' label='Male' value='M' inline  onChange={handleInputChange} />
+              <MDBRadio name='gender' id='inlineRadio2' label='Female' value='F' inline onChange={handleInputChange} />
               </div>
-              <div className="d-flex flex-row align-items-center mb-4">
-                <MDBIcon fas icon="user me-3" size='lg'/>
-                <MDBInput label='Gender' name='gender' type='text' id='formWhite' contrast  onChange={handleInputChange}/>
-              </div>
+              {/* <div className="d-flex flex-row align-items-center mb-4">
+                <label className='text-white w-50'>Profile Img</label>
+                <MDBIcon fas icon="camera me-3" size='lg' />
+                <MDBFile id='customFile' name='avatar' onChange={handleImageChange}/>
+              </div> */}
 
               <MDBBtn className='mb-4' size='lg' type='submit'>Sign Up</MDBBtn>
 

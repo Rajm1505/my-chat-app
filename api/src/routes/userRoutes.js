@@ -1,7 +1,5 @@
 const router = require('express').Router();
 const multer = require('multer');
-
-
 const USER = require('../models/userModel');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
@@ -13,28 +11,28 @@ function generateJWTToken(id){
     return jwt.sign({"id":id},process.env.SECRET_KEY,{ expiresIn: '1h' });
 }
 
-const storage = multer.diskStorage({
-    destination: (req,file,cb) => {
-        cb(null,DIR);
-    },
-    filename:(req,file,cb) => {
-        const filename = file.originalname.toLowerCase().split(' ').join('-');
-        cb(null,uuidv4() + '-' + filename)
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: (req,file,cb) => {
+//         cb(null,"public/");
+//     },
+//     filename:(req,file,cb) => {
+//         const filename = file.originalname.toLowerCase().split(' ').join('-');
+//         cb(null,uuidv4() + '-' + filename)
+//     }
+// });
 
-const allowedfiletypes = ['image/png','image/jpg','image/jpeg'];
-var upload = multer({
-    storage: storage,
-    fileFilter: (req,file,cb) =>{
-        if(allowedfiletypes.includes(file.mimetype)){
-            cb(null,true);
-        } else {
-            cb(null,false);
-            return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-        }
-    }
-})
+// const allowedfiletypes = ['image/png','image/jpg','image/jpeg'];
+// var upload = multer({
+//     storage: storage,
+//     fileFilter: (req,file,cb) =>{
+//         if(allowedfiletypes.includes(file.mimetype)){
+//             cb(null,true);
+//         } else {
+//             cb(null,false);
+//             return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+//         }
+//     }
+// }).single('image')
 
 
 
@@ -42,6 +40,7 @@ var upload = multer({
 router.post('/register', async (req,res,next)=>{
     // const url = req.protocol + '://' + req.get('host')
     //Checking if every required field is recieved or not
+
     if(!req.body.email && !req.body.name && !req.body.password && !req.body.gender){
         res.status(400).send({"message":"All the fields are required!"});
     }
@@ -51,7 +50,7 @@ router.post('/register', async (req,res,next)=>{
         email : req.body.email,
         password : req.body.password,
         gender: req.body.gender,
-        // avatar : url + '/public/' + req.file.filename,
+        // avatar : url+'./Uploads/' + req.body.image,
     });
 
     //Saving the instance to create the user
@@ -63,7 +62,6 @@ router.post('/register', async (req,res,next)=>{
     }).catch(err=>{
         res.status(500).send({
             message: err.message || "Some error occurred while creating the user!"
-            
         });
     });
 })
@@ -88,8 +86,14 @@ router.post('/login',async(req,res,next)=>{
         else{
             //Sending the token as response so that react can set it as a cookie
             const token = generateJWTToken(User._id);
+            var data = {
+                "name":User.name,
+                "_id":User._id,
+                "token":token,
+                "gender":User.gender
+            }
             console.log(true);
-            res.status(200).send({"token":token})
+            res.status(200).send(data)
             
         }
     }
