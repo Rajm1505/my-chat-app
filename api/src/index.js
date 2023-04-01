@@ -16,7 +16,6 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
 // All the routes will be used after / eg: localhost:Port/<routes>
 app.use('/user',userRoutes)
 app.use('/chat', chatRoutes);
