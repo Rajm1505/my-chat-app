@@ -1,21 +1,18 @@
-  import { useState ,useEffect} from "react";
-  import { ChatState } from "../Context/ChatProvider";
-  import ScrollableFeed from 'react-scrollable-feed';
-    import {
-      MDBContainer,
-      MDBRow,
-      MDBCol,
-      MDBCard,
-      MDBCardHeader,
-      MDBCardBody,
-      MDBCardFooter,
-      MDBIcon,
-      MDBBtn,
-      MDBInput,
-      
-    } from "mdb-react-ui-kit";
-  import axios from "axios";
-  import io from "socket.io-client"
+import { useState ,useEffect} from "react";
+import { ChatState } from "../Context/ChatProvider";
+import {
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardHeader,
+  MDBCardBody,
+  MDBCardFooter,
+  MDBIcon,
+  MDBBtn,      
+  } from "mdb-react-ui-kit";
+import axios from "axios";
+import io from "socket.io-client"
 
   const ENDPOINT = "http://localhost:3100"
   var socket;
@@ -32,6 +29,7 @@
       
       const urlArray = (window.location.href).split("/");
       const chatID = urlArray[urlArray.length-1]
+      const friendname = urlArray[urlArray.length-2]
       
       const {user} = ChatState()
 
@@ -41,7 +39,7 @@
 
       // const {chats,setChats} = ChatState();
 
-
+      
       useEffect(() => {
         socket = io(ENDPOINT)
         if(user){
@@ -86,7 +84,6 @@
           useEffect(() => {
             const fetchMessages = async () => {
               try {
-                  setUserName(user.name);
                   const config = {
                       headers : {
                           Authorization : `Bearer ${user.token}`
@@ -217,7 +214,7 @@
                         style={{ width: "45px", height: "100%" }}
                       />    
                   }
-                <h5 className="mb-0 ms-2 text-white">{userName}</h5>
+                <h5 className="mb-0 ms-2 text-white">{friendname}</h5>
                 </div>
                 <MDBBtn color="primary" size="sm" rippleColor="dark">
                   Let's Chat App

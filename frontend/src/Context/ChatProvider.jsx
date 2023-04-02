@@ -7,15 +7,14 @@ const ChatContext = createContext()
 const ChatProvider = ({children}) => {
 
     const [user, setUser] = useState();
-    const [chats, setChats] = useState();
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        const USER = JSON.parse(localStorage.getItem("USER"));
-        setUser(USER);
+        const USER = JSON.parse(localStorage.getItem("user"));
         
-        if(!USER){
+        if(USER){
+            setUser(USER);
             navigate("/login")
         }
 

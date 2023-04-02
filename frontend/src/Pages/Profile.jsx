@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   MDBContainer,
-  MDBRow,
   MDBCard,
   MDBCardText,
   MDBCardBody,

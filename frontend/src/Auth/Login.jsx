@@ -11,11 +11,13 @@ import {
 }
 from 'mdb-react-ui-kit';
 import Navbar from "../Navbar";
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Login() {
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate()
   
   function handleLogin(event) {
     event.preventDefault();
@@ -23,9 +25,11 @@ function Login() {
     axios
     .post("http://127.0.0.1:3100/user/login",formData).then((response)=>{
 
+    console.log(response.data);
     localStorage.setItem("user", JSON.stringify(response.data));
+      
 
-      console.log(response.data);
+
     }).then(function(error){
       console.log("error",error);
     })

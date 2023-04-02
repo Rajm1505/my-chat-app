@@ -2,9 +2,11 @@ import '../css/addnewfriend.css';
 import React, { useEffect, useState } from 'react';
 import Navbar1 from '../Navbar1';
 import axios from 'axios';
+import { ChatState } from '../Context/ChatProvider';
 
 export default function Search(){
     // const [name,setName] = useState("")
+    const {user} = ChatState();
     const [users,setUsers] = useState([])
 
     useEffect(()=>{
@@ -26,20 +28,19 @@ export default function Search(){
 
     const addfriend = async(_id)=>{
         try{
-        // const config = {
-        //     headers : {
-        //         "Content-Type" : "application/json",
-        //         Authorization : `Bearer ${user.token}`
-        //     }
-        // };
+        const config = {
+            headers : {
+                "Content-Type" : "application/json",
+                Authorization : `Bearer ${user.token}`
+            }
+        };
         // setNewMessage("");
         
             const {data} = await axios.post("http://127.0.0.1:3100/chat/addfriend",
         {
-            userId:"642850b67eeb740522485b2b",
-            userId2:_id
+            userId:_id
         },
-        // config
+        config
         );
         console.log(data);
     }catch(error){
@@ -72,7 +73,6 @@ export default function Search(){
                                      </div>
                                      <div className="col-md-3 col-sm-3">
                                          <button className="btn btn-outline-primary pull-right" onClick={()=>{addfriend(element._id)}} >Add Friend</button>
-
                                      </div>
                                  </div>
                              </div>
@@ -80,7 +80,7 @@ export default function Search(){
 
                            
                             
-                           
+        
                         </div>
                     </div>
                 </div>
