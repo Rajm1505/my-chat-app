@@ -11,6 +11,30 @@ function generateJWTToken(id){
     return jwt.sign({"id":id},process.env.SECRET_KEY,{ expiresIn: '1h' });
 }
 
+
+
+// let jwtUser = null;
+
+const getTokenInput = req => {
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.split(' ')[0] === 'Bearer'
+    )
+        return req.headers.authorization.split(' ')[1];
+    return null;
+};
+
+function verifyJWT(req, res, next) {
+    try {
+         return jwt.verify(getTokenInput(req), process.env.SECRET_KEY);
+        next();
+    } catch (err) {
+        console.log(err);
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(401).send(JSON.stringify({ message: 'Unauthorized' }))
+       }
+};
+
 // const storage = multer.diskStorage({
 //     destination: (req,file,cb) => {
 //         cb(null,"public/");
@@ -33,6 +57,10 @@ function generateJWTToken(id){
 //         }
 //     }
 // }).single('image')
+
+
+
+
 
 
 
@@ -116,6 +144,18 @@ router.get('/search/:name', async (req,res) => {
         res.send(user);
     } catch (error) {
         res.status(404).send({message: error});        
+    }
+})
+
+//view profile
+router.get("/profile",async(req,res,next)=>{
+    try {
+        const jwtUser = verifyJWT(req,res,next);
+        // const name = req.params.name;
+        const user = await USER.find({_id:jwtUser.id}).select('-password')
+        return res.send(user);
+    } catch (error) {
+        res.status(404).send({message: "cannot find user"});        
     }
 })
 
