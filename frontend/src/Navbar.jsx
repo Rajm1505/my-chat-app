@@ -37,6 +37,10 @@ function NavBar() {
   function handleLogin(){
     navigate('/login');
   }
+  
+  function handleLogout(){
+    localStorage.removeItem('user');
+  }
 
   return (
     <>
@@ -56,6 +60,7 @@ function NavBar() {
                 <>
                   <Nav.Link onClick={handleRegister}>Register</Nav.Link>
                   <Nav.Link onClick={handleLogin}>Login</Nav.Link>
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 </>
                   : ""}
               </>
