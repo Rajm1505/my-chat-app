@@ -79,15 +79,14 @@ function Register() {
                 <MDBFile id='customFile' name='avatar' onChange={handleImageChange}/>
               </div> */}
 
-              <MDBBtn className='mb-4' size='lg' type='submit'>Sign Up</MDBBtn>
+              <button className='btn btn-outline-primary mb-4 ms-5 ' size='lg' type='submit'>Sign Up</button>
 
               <p>Already have an account? <a href="/login" className='text-warning'>Sign in</a></p>
 
               </form>
             </MDBCol>
-
-              {/* <img src='./img/signin.jpg' alt='error'/> */}
             <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+              <img src='./images/Register.png' class="w-75"/>
             </MDBCol>
 
           </MDBRow>

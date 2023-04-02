@@ -55,17 +55,16 @@ function Login() {
                 <MDBInput label='Password' name="password" type='password' id='formWhite' contrast onChange={handleInputChange} />
               </div>
 
-              <MDBBtn className='mb-4' size='lg' onClick={handleLogin}>Login</MDBBtn>
+              <button className='btn btn-outline-primary mb-4 ms-5 ' size='lg' onClick={handleLogin}>Login</button>
             </form>
 
               <p>Don't have an account? <a href="/register" className='text-warning'>Sign up</a></p>
 
             </MDBCol>
 
-              {/* <img src='./img/signin.jpg' alt='error'/> */}
             <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+            <img src='./images/Login.png' class="w-75"/>
             </MDBCol>
-
           </MDBRow>
         </MDBContainer>
       </>
