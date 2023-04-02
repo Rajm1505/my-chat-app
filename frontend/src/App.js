@@ -25,7 +25,7 @@ function App() {
       <Route path="/search/:name" element={<Search />} />
       <Route path="/friendlist" element={<Friendlist />} />
       <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/chat/:chatID" element={<Chat />} />
+      <Route path="/chat/:name/:chatID" element={<Chat />} />
     </Routes>
   );
 }

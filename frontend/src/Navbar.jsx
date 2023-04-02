@@ -1,25 +1,19 @@
+import React, { useEffect, useRef } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
+import { ChatState } from './Context/ChatProvider';
 
-const url = window.location.href;
-console.log(url)
-let check=0;
-console.log(check)
-
-
-if((url === "http://localhost:3000/") || (url === "http://localhost:3000/contactus") || (url === "http://localhost:3000/aboutus")){
-  check=1;
-}
-else{
-  check=0;
-}
 
 
 
 function NavBar() {
-
+  let check = useRef(0);
+  
+  const {user} = ChatState();
+    
+  
   const navigate = useNavigate();
   
   function handleContactUs(){
@@ -40,6 +34,10 @@ function NavBar() {
   
   function handleLogout(){
     localStorage.removeItem('user');
+    navigate('/')
+  }
+  function handleFriends(){
+    navigate('/friendlist')
   }
 
   return (
@@ -53,18 +51,23 @@ function NavBar() {
             <Nav className="me-auto">
               <Nav.Link onClick={handleContactUs}>Contact Us</Nav.Link>
               <Nav.Link onClick={handleAboutUs}>About Us</Nav.Link>
-              {console.log(check)}
-              {
+              
               <>
-                {check ?    
+                {user &&    
+                <>
+                  <Nav.Link onClick={handleFriends}>Your Friends</Nav.Link>
+                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                </>
+                }{
+                  !user &&
                 <>
                   <Nav.Link onClick={handleRegister}>Register</Nav.Link>
                   <Nav.Link onClick={handleLogin}>Login</Nav.Link>
-                  <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
                 </>
-                  : ""}
+                }
+                  
               </>
-              }
+              
             </Nav>
           </Navbar.Collapse>
         </Container>

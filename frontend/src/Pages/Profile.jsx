@@ -1,7 +1,6 @@
 import React, { useState,useEffect } from 'react';
 import {
   MDBContainer,
-  MDBRow,
   MDBCard,
   MDBCardText,
   MDBCardBody,
