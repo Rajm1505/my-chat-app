@@ -14,6 +14,7 @@ function Home(){
                         <MDBBtn style={{backgroundColor:'orange', marginRight:'200px'}} size='lg'>Get Started !</MDBBtn>
                     </MDBCol>
                     <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+                    <img src='./images/Home.png'/>
                     </MDBCol>
                 </div>
             </MDBContainer>

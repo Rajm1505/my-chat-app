@@ -23,12 +23,13 @@ function ContactUs(){
                             <MDBTextArea label='Message' id='forWhite' rows={3} contrast />
                         </div>
                         
-                        <MDBBtn className='mb-4' size='md'>Send</MDBBtn>
+                        <button className='btn btn-outline-primary mb-4 ' >Send</button>
 
                         <p>Don't have an account? <a href="/register" className='text-warning'>Sign up</a></p>
 
                     </MDBCol>
                     <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+                    <img src='./images/ContactUS.png'/>
                     </MDBCol>
                 </div>
             </MDBContainer>

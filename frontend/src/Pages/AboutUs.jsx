@@ -13,6 +13,7 @@ function AboutUs(){
                         <p style={{fontSize:'2vw', fontWeight:'bold'}}>We provide you <br /> Platform to <span className='text-warning'>chat</span> with <br /> your friends and <br /> <span className='text-primary'>family</span>.  </p>
                     </MDBCol>
                     <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
+                    <img src='./images/AboutUs.png' />
                     </MDBCol>
                 </div>
             </MDBContainer>
