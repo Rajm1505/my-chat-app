@@ -15,6 +15,7 @@
     } from "mdb-react-ui-kit";
   import axios from "axios";
   import io from "socket.io-client"
+  import { useNavigate } from "react-router-dom";
 
 
   const ENDPOINT = "http://localhost:3100"
@@ -23,8 +24,7 @@
 
   const Chat = () =>{
 
-      const [loggedUser , setloggedUser] = useState();
-
+      const navigate = useNavigate();
       const [allMessages , setAllMessages] = useState([]);
       const [loading, setLoading] = useState(false)
       const [newMessage, setNewMessage] = useState("");
@@ -103,6 +103,7 @@
               }
           }
           if(user){
+            setUserGender(user.gender)
             fetchMessages();
           }
             
@@ -153,6 +154,9 @@
         return ((m.createdAt).split("T")[1]).slice(0,5)
       }
       
+      function handleBack(event){
+        navigate("/friendlist")
+      }
     
       return(
           <>
@@ -179,8 +183,8 @@
                   }
                 <h5 className="mb-0 ms-2 text-white">{friendname}</h5>
                 </div>
-                <MDBBtn color="primary" size="sm" rippleColor="dark">
-                  Let's Chat App
+                <MDBBtn color="primary" onClick={handleBack} size="sm" rippleColor="dark">
+                <i className="fa fa-arrow-left" aria-hidden="true"></i>
                 </MDBBtn>
               </MDBCardHeader>
               
@@ -214,11 +218,20 @@
 
                 </MDBCardBody>
               <MDBCardFooter className="text-muted d-flex justify-content-start align-items-center p-3">
-                <img
-                  src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                  alt="avatar 3"
-                  style={{ width: "45px", height: "100%" }}
-                />
+                {
+                    userGender == "M" ? 
+                    <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                        alt="avatar 1"
+                        style={{ width: "45px", height: "100%" }}
+                    />
+                        :
+                    <img
+                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                        alt="avatar 1"
+                        style={{ width: "45px", height: "100%" }}
+                      />    
+                  }
           
                 <input
                   type="text"

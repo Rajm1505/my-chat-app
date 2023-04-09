@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios'
 import {
   MDBBtn,
@@ -14,9 +15,11 @@ import {
 from 'mdb-react-ui-kit';
 import Navbar from "../Navbar";
 
+
 function Register() {
 
   const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
 
   function handleRegister(event) {
     event.preventDefault();
@@ -26,6 +29,7 @@ function Register() {
     axios
     .post("http://localhost:3100/user/register",formData).then(function(response){
       console.log(response);
+      navigate("/login")
     }).then(function(error){
       console.log(error);
     })
@@ -86,7 +90,7 @@ function Register() {
               </form>
             </MDBCol>
             <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-              <img src='./images/Register.png' class="w-75"/>
+              <img src='./images/Register.png' className="w-75"/>
             </MDBCol>
 
           </MDBRow>

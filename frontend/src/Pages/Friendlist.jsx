@@ -8,7 +8,7 @@ export default function Friendlist(){
 
     const [friends,setFriends] = useState([])
     const {user} = ChatState()
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const friendList = async()=>{
@@ -40,27 +40,21 @@ export default function Friendlist(){
     }
 
     const removeFriend = async(_id)=>{
-        try{
-        // const config = {
-        //     headers : {
-        //         "Content-Type" : "application/json",
-        //         Authorization : `Bearer ${user.token}`
-        //     }
-        // };
-        // setNewMessage("");
-        
-            const {data} = await axios.post("http://127.0.0.1:3100/chat/removefriend",
-        {
-            userId:"642850b67eeb740522485b2b",
-            userId2:_id
-        },
-        // config
-        );
-        console.log(data);
-    }catch(error){
-        console.log(error);
+         
+        const config = {
+            headers : {
+                "Content-Type" : "application/json",
+                Authorization : `Bearer ${user.token}`
+            }
+        };        
+        await axios.post("http://127.0.0.1:3100/chat/removefriend",{friendID:_id},config)
+        .then(function(response){
+            console.log(response);
+        }).catch(function(error){
+            console.log(error);
+        });
     }
-}
+
 
     return(
         <>
@@ -75,7 +69,7 @@ export default function Friendlist(){
                             <div className="nearby-user" key={element._id}>
                                 <div className="row d-flex align-items-center">
                                     <div className="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="user" className="profile-photo-lg" />
+                                        <img src={`${element.users[0].gender === "M" ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp" : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"}`} alt="user" className="profile-photo-lg" />
                                     </div>
                                     <div className="col-md-7 col-sm-7">
                                         <h5 className='text-white'>{element.users[0].name}</h5>

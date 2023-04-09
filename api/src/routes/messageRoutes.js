@@ -27,7 +27,7 @@ router.use(function(req, res, next) {
     } catch (err) {
         console.log(err);
         res.setHeader('Content-Type', 'application/json');
-        res.status(401).send(JSON.stringify({ message: 'Unauthorized' }))
+        return res.status(401).send(JSON.stringify({ message: 'Unauthorized' }))
        }
 });
 
@@ -61,7 +61,7 @@ router.post("/sendmessage", async(req,res) => {
             latestMessage : message,
         }) 
 
-        res.json(message)
+        return res.json(message)
 
     } catch(error){
         res.status(400);
@@ -76,7 +76,7 @@ router.get("/allmessages/:chatID", async(req,res) =>{
         .populate("sender","name email")
         .populate("chat");
 
-        res.json(messages)
+        return res.json(messages)
     }catch(error){
         res.status(400);
         throw new Error(error.message);

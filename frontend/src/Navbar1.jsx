@@ -5,14 +5,25 @@ import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ReactRoundedImage from "react-rounded-image";
-import MyPhoto from './images/me.png';
 import { useNavigate } from 'react-router-dom';
-import React , { useState } from 'react';
+import React , { useState,useEffect } from 'react';
+import { ChatState } from './Context/ChatProvider';
 
 function NavBar() {
 
   const [query, setQuery] = useState("")
+  const [userGender, setUserGender] = useState("M")
   const navigate = useNavigate()
+  const {user} = ChatState()
+  
+  useEffect(() => {
+    
+    if(user){
+      setUserGender(user.gender);
+    }
+
+  }, [user])
+  
 
 
   function getSearchQuery(event){
@@ -23,6 +34,10 @@ function NavBar() {
 
     navigate(`/search/${query}`)
   }
+  function handleLogout(event){
+    localStorage.removeItem('USER');
+    navigate('/')
+    }
 
   return (
       <Navbar collapseOnSelect expand="lg" style={{background:'black'}} variant="dark">
@@ -42,21 +57,21 @@ function NavBar() {
                 <Button variant="outline-success" onClick={handleSearch}>Search</Button>
               </Form>
               <Nav className="ms-auto me-5">
-                <div className='d-flex justify-content-evenly'>
-                  <Nav.Link href="#home">Contact Us</Nav.Link>
-                  <Nav.Link href="#features">About Us</Nav.Link>
-                  <Nav.Link href="#pricing" className='me-3'>Friend List</Nav.Link>
+                <div className='d-flex justify-content-evenly mt-1  '>
+                  <Nav.Link href="contactus">Contact Us</Nav.Link>
+                  <Nav.Link href="aboutus">About Us</Nav.Link>
+                  <Nav.Link href="../friendlist" >Your Friends</Nav.Link>
+                    <Nav.Link onClick={handleLogout} className='me-3'>Log out</Nav.Link>
+                </div>
+                  <Nav.Link href="/profile" className=''>
                   <ReactRoundedImage
-                    image={MyPhoto}
+                    image={`${userGender === "M" ? "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp" : "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"}`}         
                     roundedSize="0"
                     imageWidth="40"
                     imageHeight="40"
                   />
-                  <NavDropdown id="collasible-nav-dropdown" >
-                    <NavDropdown.Item href="#action/3.1" className='mt-2'>Profile</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2" className='mb-2'>Log out</NavDropdown.Item>
-                  </NavDropdown>
-                </div>
+                  </Nav.Link>
+                 
               </Nav>
         </Navbar.Collapse>
       </Container>

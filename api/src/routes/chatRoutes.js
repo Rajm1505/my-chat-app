@@ -27,7 +27,7 @@ router.use(function(req, res, next) {
     } catch (err) {
         console.log(err);
         res.setHeader('Content-Type', 'application/json');
-        res.status(401).send(JSON.stringify({ message: 'Unauthorized' }))
+        return res.status(401).send(JSON.stringify({ message: 'Unauthorized' }))
        }
 });
 
@@ -58,7 +58,7 @@ router.post("/addfriend",async (req, res) => {
   });
 
   if (isChat.length > 0) {
-    res.send(isChat[0]);
+    return res.send(isChat[0]);
   } else {
     var chatData = {
       users: [userId,jwtUser.id],//use jwtUser.id
@@ -70,7 +70,7 @@ router.post("/addfriend",async (req, res) => {
         "users",
         "-password"
       );
-      res.status(200).json(FullChat);
+      return res.status(200).json(FullChat);
     } catch (error) {
       res.status(400);
       throw new Error(error.message);
@@ -107,6 +107,40 @@ router.get('/allfriends',async (req, res) => {
 
 
 
-// router.post('/removefriend') //Remove the friend from the loggedin user 
+//Remove the friend from the loggedin user 
+router.post('/removefriend',async(req,res)=>{         
+  try{
+    console.log(jwtUser.id);
+    const {friendID} = req.body;
+    console.log(friendID);
+    const chat = await Chat.findOne({
+      $and: [
+        { users: { $elemMatch: { $eq:  jwtUser.id} } }, //jwtUser.id
+        { users: { $elemMatch: { $eq: friendID } } }
+      ],
+    })
+    console.log("chat in removefriend: ",chat);
+    if(!chat){
+      console.log("Friend not found");
+      return res.sendStatus(204);
+    }
+    console.log("chat: ",chat);
+    console.log("chatid: ",chat._id);
+
+    try{
+      await Chat.deleteOne({_id : chat._id});
+      await Message.deleteMany({chat:chat._id});
+      return res.sendStatus(204)
+
+    }
+    catch(error){
+      console.log(error);
+      return res.status(500).send({message:"Could not remove friend"})
+    }
+  
+  }catch(error){
+    console.log(error);
+  }
+  })
               
 module.exports = router;

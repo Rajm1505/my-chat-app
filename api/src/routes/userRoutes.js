@@ -70,7 +70,7 @@ router.post('/register', async (req,res,next)=>{
     //Checking if every required field is recieved or not
 
     if(!req.body.email && !req.body.name && !req.body.password && !req.body.gender){
-        res.status(400).send({"message":"All the fields are required!"});
+        return res.status(400).send({"message":"All the fields are required!"});
     }
     //creating a model instance using the provided values
     const user = new USER({
@@ -83,12 +83,12 @@ router.post('/register', async (req,res,next)=>{
 
     //Saving the instance to create the user
     await user.save().then(data=>{
-        res.send({
+        return res.send({
             message:"User created successfully",
             user:data
         });
     }).catch(err=>{
-        res.status(500).send({
+        return res.status(500).send({
             message: err.message || "Some error occurred while creating the user!"
         });
     });
@@ -109,7 +109,7 @@ router.post('/login',async(req,res,next)=>{
     if(User)
     {   
         if(!password || password != User.password){
-            res.status(404).send({"message":"Email or Password is invalid!"})
+            return res.status(404).send({"message":"Email or Password is invalid!"})
         }
         else{
             //Sending the token as response so that react can set it as a cookie
@@ -121,13 +121,13 @@ router.post('/login',async(req,res,next)=>{
                 "gender":User.gender
             }
             console.log(true);
-            res.status(200).send(data)
+            return res.status(200).send(data)
             
         }
     }
     else{
         //If the user instance has empty {}
-        res.status(404).send({"message":"Account does not exist!"})
+        return res.status(404).send({"message":"Account does not exist!"})
     }
 
 });
@@ -140,10 +140,10 @@ router.post('/login',async(req,res,next)=>{
 router.get('/search/:name', async (req,res) => {
     try {
         const name = req.params.name;
-        const user = await USER.find({name:{ $regex:'.*'+name+'.*'} });
-        res.send(user);
+        const users = await USER.find({name:{ $regex:'.*'+name+'.*'} });
+        return res.status(200).send(users);
     } catch (error) {
-        res.status(404).send({message: error});        
+        return res.status(404).send({message: error});        
     }
 })
 
@@ -155,9 +155,26 @@ router.get("/profile",async(req,res,next)=>{
         const user = await USER.find({_id:jwtUser.id}).select('-password')
         return res.send(user);
     } catch (error) {
-        res.status(404).send({message: "cannot find user"});        
+        return res.status(404).send({message: "cannot find user"});        
     }
 })
 
+
+router.patch('/editprofile', async (req, res, next) => {
+    const {userid,name,email,gender} = req.body;
+  
+    try {
+      // Find the user by ID and update their profile
+      const user = await USER.findByIdAndUpdate(userid, {name,email,gender}, { new: true });
+  
+      if (!user) {
+        return res.status(404).send({ message: 'User not found!' });
+      }
+  
+      return res.send({ message: 'Profile updated successfully!', user });
+    } catch (err) {
+      return res.status(500).send({ message: 'Error updating profile!', error: err.message });
+    }
+  });
 
 module.exports = router;

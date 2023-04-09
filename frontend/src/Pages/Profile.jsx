@@ -9,9 +9,11 @@ import {
 import NavBar from '../Navbar1';
 import Button from 'react-bootstrap/esm/Button';
 import axios from 'axios';
+import { ChatState } from '../Context/ChatProvider';
 
 export default function ProfilePage() {
   const [profile,setProfile] = useState([])
+  const {user} = ChatState();
   
   useEffect(()=>{
     const profile = async()=>{
@@ -19,7 +21,7 @@ export default function ProfilePage() {
             const config = {
             headers : {
                 "Content-Type" : "application/json",
-                Authorization : `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Mjg1MGI2N2VlYjc0MDUyMjQ4NWIyYiIsImlhdCI6MTY4MDQyOTI1NiwiZXhwIjoxNjgwNDMyODU2fQ.YocvNKKBtpo7ZtBzMQsr0WyrfAUBL2XIdS1oJOuvqCY`
+                Authorization : `Bearer ${user.token}`
             }
         };
             
@@ -31,9 +33,11 @@ export default function ProfilePage() {
         console.log(error);
     }
 }
-      
-   profile();
-},[])
+      if(user){
+
+        profile();
+      }
+},[user])
   return (
     <section>
       <NavBar/>

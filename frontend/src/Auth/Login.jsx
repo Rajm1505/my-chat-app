@@ -26,6 +26,7 @@ function Login() {
     .post("http://127.0.0.1:3100/user/login",formData).then((response)=>{
 
     localStorage.setItem("USER", JSON.stringify(response.data));
+    navigate("/")
 
     }).then(function(error){
       console.log("error",error);
@@ -70,7 +71,7 @@ function Login() {
             </MDBCol>
 
             <MDBCol md='10' lg='6' className='order-1 order-lg-2 d-flex align-items-center'>
-            <img src='./images/Login.png' class="w-75"/>
+            <img src='./images/Login.png' className="w-75"/>
             </MDBCol>
           </MDBRow>
         </MDBContainer>

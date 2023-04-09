@@ -33,7 +33,7 @@ function NavBar() {
   }
   
   function handleLogout(){
-    localStorage.removeItem('user');
+    localStorage.removeItem('USER');
     navigate('/')
   }
   function handleFriends(){
