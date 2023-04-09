@@ -15,6 +15,7 @@ const ChatProvider = ({children}) => {
         const unprotectedRoutes = ['/', '/register','/contactus','/contactus']; // add the routes you don't want to protect here
         const currentRoute = window.location.pathname;
         if(!USER && !unprotectedRoutes.includes(currentRoute)){
+
             navigate("/login")
         }
         setUser(USER);

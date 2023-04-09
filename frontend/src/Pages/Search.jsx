@@ -75,11 +75,11 @@ export default function Search(){
                                      </div>
                                      <div className="col-md-3 col-sm-3">
                                          <button className="btn btn-outline-primary pull-right" onClick={()=>{addfriend(element._id)}} >Add Friend</button>
-
                                      </div>
                                  </div>
                              </div>
                             ))}
+
                         </div>
                     </div>
                 </div>
