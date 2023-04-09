@@ -5,9 +5,8 @@ import axios from 'axios';
 import { ChatState } from '../Context/ChatProvider';
 
 export default function Search(){
-    // const [name,setName] = useState("")
-    const {user} = ChatState();
     const [users,setUsers] = useState([])
+    const {user} = ChatState();
 
     useEffect(()=>{
         const searchUsers = async()=>{
@@ -34,7 +33,6 @@ export default function Search(){
                 Authorization : `Bearer ${user.token}`
             }
         };
-        // setNewMessage("");
         
             const {data} = await axios.post("http://127.0.0.1:3100/chat/addfriend",
         {
@@ -66,7 +64,11 @@ export default function Search(){
                                  <div className="nearby-user">
                                  <div className="row d-flex align-items-center">
                                      <div className="col-md-2 col-sm-2">
-                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" className="profile-photo-lg" />
+                                        {element.gender=="M"?
+                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp" alt="user" className="profile-photo-lg" />
+                                         :
+                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="user" className="profile-photo-lg" />
+                                        }
                                      </div>
                                      <div className="col-md-7 col-sm-7">
                                          <h5>{element.name}</h5>
@@ -78,9 +80,6 @@ export default function Search(){
                              </div>
                             ))}
 
-                           
-                            
-        
                         </div>
                     </div>
                 </div>

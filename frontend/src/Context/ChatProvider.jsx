@@ -1,4 +1,4 @@
-import { useContext, createContext, useState, useEffect } from 'react';
+import { useContext, createContext, useState, useEffect, useLoca } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,12 +11,15 @@ const ChatProvider = ({children}) => {
 
 
     useEffect(() => {
-        const USER = JSON.parse(localStorage.getItem("user"));
-        
-        if(USER){
-            setUser(USER);
+        const USER = JSON.parse(localStorage.getItem("USER"));
+        const unprotectedRoutes = ['/', '/register','/contactus','/contactus']; // add the routes you don't want to protect here
+        const currentRoute = window.location.pathname;
+        if(!USER && !unprotectedRoutes.includes(currentRoute)){
+
             navigate("/login")
         }
+        setUser(USER);
+        
 
     }, [])
     

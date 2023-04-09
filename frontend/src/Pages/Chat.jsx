@@ -1,18 +1,21 @@
-import { useState ,useEffect} from "react";
-import { ChatState } from "../Context/ChatProvider";
-import {
-  MDBContainer,
-  MDBRow,
-  MDBCol,
-  MDBCard,
-  MDBCardHeader,
-  MDBCardBody,
-  MDBCardFooter,
-  MDBIcon,
-  MDBBtn,      
-  } from "mdb-react-ui-kit";
-import axios from "axios";
-import io from "socket.io-client"
+  import { useState ,useEffect} from "react";
+  import { ChatState } from "../Context/ChatProvider";
+    import {
+      MDBContainer,
+      MDBRow,
+      MDBCol,
+      MDBCard,
+      MDBCardHeader,
+      MDBCardBody,
+      MDBCardFooter,
+      MDBIcon,
+      MDBBtn,
+      MDBInput,
+      
+    } from "mdb-react-ui-kit";
+  import axios from "axios";
+  import io from "socket.io-client"
+
 
   const ENDPOINT = "http://localhost:3100"
   var socket;
@@ -116,45 +119,13 @@ import io from "socket.io-client"
           }) ;
           
           })
-          
 
           
-          
-
-
       const typingHandler = (e) =>{
           console.log(e.target.value)
           setNewMessage(e.target.value);
       };
-
-      const fetchChats = async () => {
-
-      }
-
-      const isSameSender = (allMessages, m, i, userID) => {  
-        console.log(i < allMessages.length - 1 &&
-          (allMessages[i + 1].sender._id !== m.sender._id ||
-            allMessages[i + 1].sender._id === undefined) &&
-            allMessages[i].sender._id !== userID)
-        return (
-          i < allMessages.length - 1 &&
-          (allMessages[i + 1].sender._id !== m.sender._id ||
-            allMessages[i + 1].sender._id === undefined) &&
-            allMessages[i].sender._id !== userID
-        );
-      };
-
-      const isLastMessage = (allMessages, i, userID) => {
-        console.log(i === allMessages.length - 1 &&
-          allMessages[allMessages.length - 1].sender._id !== userID &&
-          allMessages[allMessages.length - 1].sender._id);
-        return (
-          i === allMessages.length - 1 &&
-          allMessages[allMessages.length - 1].sender._id !== userID &&
-          allMessages[allMessages.length - 1].sender._id
-        );
-      };
-
+     
       const isSameSenderMargin = (messages, m, i, userId) => {
         // console.log(i === messages.length - 1);
       
@@ -178,14 +149,6 @@ import io from "socket.io-client"
         return i > 0 && messages[i - 1].sender._id === m.sender._id;
       };
       
-      const getSender = (loggedUser, users) => {
-        return users[0]._id === loggedUser._id ? users[1].name : users[0].name;
-      };
-      
-      const getSenderFull = (loggedUser, users) => {
-        return users[0]._id === loggedUser._id ? users[1] : users[0];
-      };
-
       const getTimeStamp = (m) => {
         return ((m.createdAt).split("T")[1]).slice(0,5)
       }
@@ -226,20 +189,7 @@ import io from "socket.io-client"
           <div style={{height:"500px",overflowY:"scroll"}}>
               {allMessages && allMessages.map((m,i)=>(
                   <div style={{display : "flex"}} key={m._id}>
-                    {/* {
-                      (
-                        isSameSender(allMessages,m,i,user._id)
-                        || isLastMessage(allMessages,i,user._id)
-                        ) && (
-                          <p style={{display : "block"}}><img
-                          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                          alt="avatar 1"
-                          style={{ width: "45px", height: "100%" }}
-                        /></p>
-                        )
-                    } */}
-                    
-
+                  
                     <span className=  {`${m.sender._id === user._id ? "bg-primary text-white" : "bg-secondary text-dark " }`}
                     style={{
                       color : "B9F5D0", 
@@ -261,81 +211,6 @@ import io from "socket.io-client"
                   </div>
               ))}
           </div>
-
-                  {/* <div className="d-flex flex-row justify-content-start">
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                      alt="avatar 1"
-                      style={{ width: "45px", height: "100%" }}
-                    />
-                    <div>
-                      <p
-                        className="small p-2 ms-3 mb-1 rounded-3"
-                        style={{ backgroundColor: "#f5f6f7" }}
-                      >
-                        Hi
-                      </p>
-                      <p
-                        className="small p-2 ms-3 mb-1 rounded-3"
-                        style={{ backgroundColor: "#f5f6f7" }}
-                      >
-                        How are you ...???
-                      </p>
-                    </div>
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                      alt="avatar 1"
-                      style={{ width: "45px", height: "100%" }}
-                    />
-                  </div>
-
-                  <div className="d-flex flex-row justify-content-start mb-4">
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
-                      alt="avatar 1"
-                      style={{ width: "45px", height: "100%" }}
-                    />
-                    <div>
-                      <p
-                        className="small p-2 ms-3 mb-1 rounded-3"
-                        style={{ backgroundColor: "#f5f6f7" }}
-                      >
-                        Okay
-                      </p>
-                      <p
-                        className="small p-2 ms-3 mb-1 rounded-3"
-                        style={{ backgroundColor: "#f5f6f7" }}
-                      >
-                        We will go on Sunday?
-                      </p>
-                      <p className="small ms-3 mb-3 rounded-3 text-muted">
-                        00:07
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="d-flex flex-row justify-content-end mb-4">
-                    <div>
-                      <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-                        That's awesome!
-                      </p>
-                      <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-                        I will meet you Sandon Square sharp at 10 AM
-                      </p>
-                      <p className="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">
-                        Is that okay?
-                      </p>
-                      <p className="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">
-                        00:09
-                      </p>
-                    </div>
-                    <img
-                      src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
-                      alt="avatar 1"
-                      style={{ width: "45px", height: "100%" }}
-                    />
-                  </div> */}
-
 
                 </MDBCardBody>
               <MDBCardFooter className="text-muted d-flex justify-content-start align-items-center p-3">
