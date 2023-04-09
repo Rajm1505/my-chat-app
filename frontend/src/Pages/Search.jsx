@@ -2,10 +2,11 @@ import '../css/addnewfriend.css';
 import React, { useEffect, useState } from 'react';
 import Navbar1 from '../Navbar1';
 import axios from 'axios';
+import { ChatState } from '../Context/ChatProvider';
 
 export default function Search(){
-    // const [name,setName] = useState("")
     const [users,setUsers] = useState([])
+    const {user} = ChatState();
 
     useEffect(()=>{
         const searchUsers = async()=>{
@@ -26,20 +27,18 @@ export default function Search(){
 
     const addfriend = async(_id)=>{
         try{
-        // const config = {
-        //     headers : {
-        //         "Content-Type" : "application/json",
-        //         Authorization : `Bearer ${user.token}`
-        //     }
-        // };
-        // setNewMessage("");
+        const config = {
+            headers : {
+                "Content-Type" : "application/json",
+                Authorization : `Bearer ${user.token}`
+            }
+        };
         
             const {data} = await axios.post("http://127.0.0.1:3100/chat/addfriend",
         {
-            userId:"642850b67eeb740522485b2b",
-            userId2:_id
+            userId:_id
         },
-        // config
+        config
         );
         console.log(data);
     }catch(error){
@@ -65,7 +64,11 @@ export default function Search(){
                                  <div className="nearby-user">
                                  <div className="row d-flex align-items-center">
                                      <div className="col-md-2 col-sm-2">
-                                         <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" className="profile-photo-lg" />
+                                        {element.gender=="M"?
+                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp" alt="user" className="profile-photo-lg" />
+                                         :
+                                         <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp" alt="user" className="profile-photo-lg" />
+                                        }
                                      </div>
                                      <div className="col-md-7 col-sm-7">
                                          <h5>{element.name}</h5>
@@ -77,10 +80,6 @@ export default function Search(){
                                  </div>
                              </div>
                             ))}
-
-                           
-                            
-                           
                         </div>
                     </div>
                 </div>

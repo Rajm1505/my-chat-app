@@ -46,7 +46,7 @@ router.post('/register', async (req,res,next)=>{
     }
     //creating a model instance using the provided values
     const user = new USER({
-        name: req.body.name,
+        name: (req.body.name).toLowerCase(),
         email : req.body.email,
         password : req.body.password,
         gender: req.body.gender,
